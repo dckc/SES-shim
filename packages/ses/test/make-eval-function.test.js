@@ -1,15 +1,11 @@
+import './install-ses-safe.js';
 import tap from 'tap';
-import sinon from 'sinon';
 import { makeEvalFunction } from '../src/make-eval-function.js';
-import stubFunctionConstructors from './stub-function-constructors.js';
 
 const { test } = tap;
 
 test('makeEvalFunction - leak', t => {
   t.plan(8);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const globalObject = {};
   const safeEval = makeEvalFunction(globalObject);
@@ -31,17 +27,10 @@ test('makeEvalFunction - leak', t => {
 
   t.equal(safeEval('none'), 11);
   t.equal(safeEval('this.none'), 11);
-
-  // cleanup
-  delete globalThis.none;
-  sinon.restore();
 });
 
 test('makeEvalFunction - globals', t => {
   t.plan(20);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const globalObject = Object.create(
     {},
@@ -84,8 +73,4 @@ test('makeEvalFunction - globals', t => {
   t.equal(safeEval('bar'), 10);
   t.equal(safeEval('this.foo'), 1);
   t.equal(safeEval('this.bar'), 10);
-
-  // cleanup
-  delete globalThis.none;
-  sinon.restore();
 });

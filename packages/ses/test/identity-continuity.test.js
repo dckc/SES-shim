@@ -1,16 +1,11 @@
+import './install-ses-safe.js';
 import tap from 'tap';
-import sinon from 'sinon';
-import '../ses.js';
-import stubFunctionConstructors from './stub-function-constructors.js';
 
 const { test } = tap;
 
 // Array is a shared global
 test('identity Array', t => {
   t.plan(7);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c1 = new Compartment();
   const c2 = new c1.globalThis.Compartment();
@@ -24,16 +19,11 @@ test('identity Array', t => {
   t.ok(a2 instanceof Array);
   t.ok(a2 instanceof c1.globalThis.Array);
   t.ok(a2 instanceof c2.globalThis.Array);
-
-  sinon.restore();
 });
 
 // Compartment is a shared global
 test('identity Compartment', t => {
   t.plan(8);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c1 = new Compartment();
   const c2 = new c1.globalThis.Compartment();
@@ -52,16 +42,12 @@ test('identity Compartment', t => {
   t.ok(e3 instanceof c1.globalThis.Compartment);
   t.ok(e3 instanceof c2.globalThis.Compartment);
 
-  sinon.restore();
   t.end();
 });
 
 // eval is evaluator-specific
 test('identity eval', t => {
   t.plan(8);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c1 = new Compartment();
   const c2 = new c1.globalThis.Compartment();
@@ -76,16 +62,11 @@ test('identity eval', t => {
   // eslint-disable-next-line no-eval
   t.notEqual(c2.evaluate('eval'), eval);
   t.notEqual(c2.evaluate('eval'), c1.evaluate('eval'));
-
-  sinon.restore();
 });
 
 // Function is evaluator-specific
 test('identity Function', t => {
   t.plan(11);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c1 = new Compartment();
   const c2 = new c1.globalThis.Compartment();
@@ -105,6 +86,4 @@ test('identity Function', t => {
   t.ok(f2 instanceof c1.globalThis.Function);
   t.ok(f2 instanceof c2.globalThis.Function);
   t.ok(f2 instanceof c3.globalThis.Function);
-
-  sinon.restore();
 });

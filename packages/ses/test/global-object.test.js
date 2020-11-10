@@ -1,7 +1,6 @@
+import './install-ses-safe.js';
 import tap from 'tap';
-import sinon from 'sinon';
 import { initGlobalObject } from '../src/global-object.js';
-import stubFunctionConstructors from './stub-function-constructors.js';
 import { sharedGlobalPropertyNames } from '../src/whitelist.js';
 import {
   makeCompartmentConstructor,
@@ -11,9 +10,6 @@ import {
 const { test } = tap;
 
 test('globalObject', t => {
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
-
   const intrinsics = {
     Date: globalThis.Date,
     eval: globalThis.eval,
@@ -74,8 +70,6 @@ test('globalObject', t => {
       t.notOk(desc.enumerable, `${name} should not be enumerable`);
     }
   }
-
-  sinon.restore();
 
   t.end();
 });

@@ -1,15 +1,10 @@
+import './install-ses-safe.js';
 import tap from 'tap';
-import sinon from 'sinon';
-import '../lockdown.js';
-import stubFunctionConstructors from './stub-function-constructors.js';
 
 const { test } = tap;
 
 test('reject direct eval expressions in evaluate', t => {
   t.plan(10);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c = new Compartment();
 
@@ -53,15 +48,10 @@ test('reject direct eval expressions in evaluate', t => {
   );
   t.throws(() => c.evaluate(wrap(newline)), SyntaxError, 'newline');
   t.throws(() => c.evaluate(wrap(multiline)), SyntaxError, 'newline');
-
-  sinon.restore();
 });
 
 test('reject direct eval expressions in Function', t => {
   t.plan(10);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c = new Compartment();
 
@@ -101,8 +91,6 @@ test('reject direct eval expressions in Function', t => {
   );
   t.throws(() => c.evaluate(wrap(newline)), SyntaxError, 'newline');
   t.throws(() => c.evaluate(wrap(multiline)), SyntaxError, 'newline');
-
-  sinon.restore();
 });
 
 test('reject direct eval expressions with name', t => {

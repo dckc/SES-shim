@@ -1,15 +1,10 @@
 import tap from 'tap';
-import sinon from 'sinon';
 import '../lockdown.js';
-import stubFunctionConstructors from './stub-function-constructors.js';
 
 const { test } = tap;
 
 test('Compartment instance', t => {
   t.plan(9);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c = new Compartment();
 
@@ -41,6 +36,4 @@ test('Compartment instance', t => {
     ['constructor', 'evaluate', 'name', 'globalThis', 'toString'].sort(),
     'prototype properties',
   );
-
-  sinon.restore();
 });

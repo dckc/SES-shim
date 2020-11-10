@@ -1,15 +1,11 @@
+import './install-ses-safe.js';
 import tap from 'tap';
-import sinon from 'sinon';
 import { makeFunctionConstructor } from '../src/make-function-constructor.js';
-import stubFunctionConstructors from './stub-function-constructors.js';
 
 const { test } = tap;
 
 test('functionConstructor', t => {
   t.plan(12);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const globalObject = Object.create(
     {},
@@ -44,6 +40,4 @@ test('functionConstructor', t => {
   const fnThisFoo = safeFunction('foo', 'return this.foo');
   t.throws(() => fnThisFoo.call(undefined, 9), TypeError);
   t.equal(fnThisFoo.call({ foo: 8 }, 9), 8);
-
-  sinon.restore();
 });

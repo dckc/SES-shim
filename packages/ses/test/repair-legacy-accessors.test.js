@@ -1,7 +1,5 @@
 import tap from 'tap';
-import sinon from 'sinon';
 import repairLegacyAccessors from '../src/repair-legacy-accessors.js';
-import stubLegacyAccessors from './stub-legacy-accessors.js';
 
 const { test } = tap;
 
@@ -10,7 +8,6 @@ const { test } = tap;
 test('repairAccessors - no multiple fix', t => {
   t.plan(1);
 
-  stubLegacyAccessors(sinon);
   repairLegacyAccessors();
 
   const original = Object.prototype.__lookupGetter__;
@@ -18,14 +15,11 @@ test('repairAccessors - no multiple fix', t => {
   repairLegacyAccessors();
 
   t.equal(Object.prototype.__lookupGetter__, original);
-
-  sinon.restore();
 });
 
 test('repairAccessors - force', specs => {
   specs.plan(4);
 
-  stubLegacyAccessors(sinon);
   repairLegacyAccessors();
 
   const {
@@ -215,8 +209,6 @@ test('repairAccessors - force', specs => {
       'Throws on undefined as `this`',
     );
   });
-
-  sinon.restore();
 });
 
 /* eslint-enable no-restricted-properties, no-underscore-dangle, func-names */

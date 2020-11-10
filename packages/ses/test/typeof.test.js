@@ -1,15 +1,10 @@
+import './install-ses-safe.js';
 import tap from 'tap';
-import sinon from 'sinon';
-import '../lockdown.js';
-import stubFunctionConstructors from './stub-function-constructors.js';
 
 const { test } = tap;
 
 test('typeof', t => {
   t.plan(8);
-
-  // Mimic repairFunctions.
-  stubFunctionConstructors(sinon);
 
   const c = new Compartment();
 
@@ -26,6 +21,4 @@ test('typeof', t => {
   t.doesNotThrow(() => c.evaluate('global'), ReferenceError);
   t.equal(c.evaluate('global'), undefined);
   t.equal(c.evaluate('typeof global'), 'undefined');
-
-  sinon.restore();
 });
