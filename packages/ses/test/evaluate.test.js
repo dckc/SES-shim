@@ -1,4 +1,5 @@
-import './install-ses-safe.js';
+import '../ses.js';
+import './lockdown.js';
 import tap from 'tap';
 import { performEval } from '../src/evaluate.js';
 

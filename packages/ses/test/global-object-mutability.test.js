@@ -1,6 +1,6 @@
-import './install-ses-safe.js';
+import '../ses.js';
+import './lockdown.js';
 import tap from 'tap';
-import '../lockdown.js';
 
 const { test } = tap;
 

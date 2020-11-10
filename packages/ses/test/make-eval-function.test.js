@@ -1,4 +1,5 @@
-import './install-ses-safe.js';
+import '../ses.js';
+import './lockdown.js';
 import tap from 'tap';
 import { makeEvalFunction } from '../src/make-eval-function.js';
 
